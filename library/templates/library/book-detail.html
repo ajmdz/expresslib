@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1>{{book.title}}</h1>
+<p> {{book.author.fname}} {{book.author.lname}} </p>
+<img style="max-width: 500px" src="{{ book.cover.url }}">
+<p><b>Status:</b> {% if book.available %}Available <br><a href="">Borrow this book</a>{% else %} Not Available{% endif %}</p>
+<hr>
+<h3>Description</h3>
+<p>
+    {{book.description}}
+</p>
+<hr>
+<h3>More information</h3>
+<b>ISBN-13:</b> {{book.isbn13}}
+<br><b>Published:</b> {{book.published}}, {{book.publisher}}
+<br><b>Date added:</b> {{book.date_added}}
+<hr>
+
+
+
+{% endblock content %}
