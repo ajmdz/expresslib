@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Book
+from .models import Book, Profile
 from .forms import BookForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 def registerPage(request):
@@ -16,7 +17,9 @@ def registerPage(request):
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                form.save()
+                user = form.save()
+
+                Profile.objects.create(user=user)
                 messages.success(request, 'Account was created')
 
                 return redirect('login')
@@ -36,6 +39,7 @@ def loginPage(request):
 
             if user is not None:
                 login(request, user)
+                print(request.user.profile.id)
                 return redirect('books')
             else:
                 messages.info(request, 'Username OR password is incorrect')

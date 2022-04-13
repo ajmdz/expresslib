@@ -1,8 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 # from django.core.validators import RegexValidator
 import uuid
 
 # Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
+    def __str__(self):
+        return str(self.id)
+
 class Author(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     fname = models.CharField(max_length=200)
