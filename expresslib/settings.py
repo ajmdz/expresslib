@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #local
-    'library'
+    'library',
+    'records',
+
 ]
 
 MIDDLEWARE = [
