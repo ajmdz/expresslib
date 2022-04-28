@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 class Request(models.Model):
 
     class RequestStatus(models.TextChoices):
-        APPROVED = 'approved'
-        DECLINED = 'declined'
-        PENDING = 'pending'
+        APPROVED = 'APPROVED'
+        DECLINED = 'DECLINED'
+        PENDING = 'PENDING'
 
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, null=True, blank=True, on_delete=models.CASCADE)
@@ -19,9 +19,9 @@ class Request(models.Model):
 
 class Record(models.Model):
     class BorrowStatus(models.TextChoices):
-        ONGOING = 'ongoing'
-        RETURNED = 'returned'
-        OVERDUE = 'overdue'
+        ONGOING = 'ONGOING'
+        RETURNED = 'RETURNED'
+        OVERDUE = 'OVERDUE'
 
     def get_returnDate():
         return datetime.today() + timedelta(days=7)
