@@ -1,0 +1,31 @@
+{% extends 'admin-main.html' %}
+
+{% block content %}
+<h1>All Requests</h1>
+
+{% if requests %}
+    <table>
+        <tr>
+            <th>Book</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        {% for item in requests %}
+            <tr>
+                <td>{{item.book.title}}</td>
+                <td>{{item.user.username}}</td>
+                <td>{{item.date_created}}</td>
+                <td>{{item.status}}</td>
+                <td>
+                    <a href="{% url 'records:approve-request' item.id %}">Approve</a> 
+                    <a href="{% url 'records:decline-request' item.id %}">Decline</a>
+                </td>
+            </tr>
+        {% endfor %}
+    <table>
+{% else %}
+<h3> No requests for now.</h3>
+{% endif %}
+
+{% endblock content %}
