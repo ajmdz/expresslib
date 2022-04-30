@@ -15,7 +15,7 @@ class Request(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=8, choices=RequestStatus.choices, default=RequestStatus.PENDING)
     def __str__(self):
-        return str(self.book) + " - " + str(self.user) 
+        return self.status +': '+str(self.book) + " - " + str(self.user) 
 
 class Record(models.Model):
 
@@ -29,5 +29,7 @@ class Record(models.Model):
     # fine = models.DecimalField(default=0, decimal_places=2, max_digits=7)
     
     def __str__(self):
-        return str(self.status) + " - " + str(self.request)
+        return self.request.user.username + \
+            " - " + self.request.book.title + \
+            " | Return by " + str(self.return_date)
 
