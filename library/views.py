@@ -40,7 +40,7 @@ def loginPage(request):
             if user is not None:
                 login(request, user)
                 print(request.user.profile.id)
-                return redirect('books')
+                return redirect('library:books')
             else:
                 messages.info(request, 'Username OR password is incorrect')
 
@@ -49,7 +49,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('library:login')
 
 @login_required(login_url='login')
 def books(request):
