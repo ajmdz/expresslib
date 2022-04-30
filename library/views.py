@@ -51,13 +51,13 @@ def logoutUser(request):
     logout(request)
     return redirect('library:login')
 
-@login_required(login_url='login')
+@login_required(login_url='library:login')
 def books(request):
     books = Book.objects.all()
     context = {'books':books}
     return render(request, 'library/books.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='library:login')
 # single book view
 def bookDetail(request, pk):
     bookObj = Book.objects.get(id=pk)
