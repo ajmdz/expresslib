@@ -1,0 +1,7 @@
+<!--Create confirmation form here -->
+<p> Confirm your request:</p>
+<p> {{book.title}}</p>
+<form method="POST" action="">
+    {% csrf_token %}
+    <input class="" type="submit" value="confirm">
+</form>
