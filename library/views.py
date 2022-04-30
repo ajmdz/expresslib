@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from records.models import Request, Record
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def registerPage(request):
@@ -58,8 +60,20 @@ def books(request):
     return render(request, 'library/books.html', context)
 
 @login_required(login_url='library:login')
-# single book view
 def bookDetail(request, pk):
     bookObj = Book.objects.get(id=pk)
-    context = {'book':bookObj}
+    # check status: don't allow user to send duplicate requests
+    """
+        Possible bug: if book status is not reset to available
+            after approval and return.
+        So, set the status back to available after the book is returned 
+    """
+    try:
+        inRequestTable = Request.objects.get(user=request.user, book=bookObj, status="PENDING")
+    except ObjectDoesNotExist:
+        print("Did not return an object")
+        inRequestTable = None
+
+    context = {'book':bookObj, 'inRequestTable': inRequestTable}
     return render(request, 'library/book-detail.html', context)
+
