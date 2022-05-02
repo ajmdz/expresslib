@@ -1,0 +1,36 @@
+{% extends 'admin-main.html' %}
+
+{% block content %}
+<h1>Library Records</h1>
+
+{% if records %}
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Book</th>
+            <th>Issue Date</th>
+            <th>Return Deadline</th>
+            <th>Returned</th>
+        </tr>
+        {% for item in records %}
+            <tr>
+                <td>{{item.request.user.username}}</td>
+                <td>{{item.request.book.title}}</td>
+                <td>{{item.issue_date}}</td>
+                <td>{{item.return_date}}</td>
+                <td>
+                    {% if not item.returned %}
+                        {{item.returned}} <br>
+                        <a href="{% url 'records:return-book' item.id %}">Mark as returned</a>
+                    {% else %}
+                        {{item.returned}}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    <table>
+{% else %}
+<h3> No records yet.</h3>
+{% endif %}
+
+{% endblock content %}
