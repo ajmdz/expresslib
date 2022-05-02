@@ -30,6 +30,18 @@ def fetchRecords(request):
     context = {'records':records}
     return render(request, 'records/admin-records.html', context)
 
+def returnBook(request, pk):
+    item = Record.objects.get(id=pk)
+    item.returned = True
+    book = Book.objects.get(id=item.request.book.id)
+    book.available = True
+
+    if request.method == 'POST':
+        item.save()
+        book.save()
+        return redirect('records:records')
+    return render(request, 'records/confirm-return.html')
+
 def approveRequest(request, pk):
     item = Request.objects.get(id=pk)
     item.status = "APPROVED"
@@ -38,7 +50,7 @@ def approveRequest(request, pk):
     
     if request.method == 'POST':
         item.save()
-        record = Record(request=item)
+        record = Record(request=item)   
         record.save()
         book.save()
         return redirect('records:borrow-requests')
