@@ -13,7 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 def registerPage(request):
     if request.user.is_authenticated:
-        return redirect('books')
+        return redirect('library:books')
     else:
         form = CreateUserForm()
         if request.method == 'POST':
@@ -41,7 +41,6 @@ def loginPage(request):
 
             if user is not None:
                 login(request, user)
-                print(request.user.profile.id)
                 return redirect('library:books')
             else:
                 messages.info(request, 'Username OR password is incorrect')
