@@ -40,6 +40,7 @@ def returnBook(request, pk):
         item.save()
         book.save()
         return redirect('records:records')
+        
     return render(request, 'records/confirm-return.html')
 
 def approveRequest(request, pk):
