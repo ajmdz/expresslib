@@ -25,6 +25,11 @@ def fetchRequests(request):
     context = {'requests':requests}
     return render(request, 'records/admin-requests.html', context)
 
+def fetchRecords(request):
+    records = Record.objects.all().order_by('-issue_date')
+    context = {'records':records}
+    return render(request, 'records/admin-records.html', context)
+
 def approveRequest(request, pk):
     item = Request.objects.get(id=pk)
     item.status = "APPROVED"
