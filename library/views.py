@@ -93,3 +93,28 @@ def addBook(request):
 
     context = {'form':form}
     return render(request, 'library/add-book.html', context)
+
+def editBookDetail(request,pk):
+    book = Book.objects.get(id=pk)
+    form = BookForm(instance=book)
+
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('library:manage-books')
+
+    context = {'form':form}
+    return render(request, 'library/edit-book-detail.html', context)
+
+def deleteBook(request,pk):
+    book = Book.objects.get(id=pk)
+
+    if request.method == 'POST':
+        book.delete()
+        return redirect('library:manage-books')
+
+    context = {'book':book}
+    return render(request, "library/confirm-delete-book.html", context)
+
+

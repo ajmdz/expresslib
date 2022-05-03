@@ -11,6 +11,8 @@ urlpatterns = [
 
     path('manage/', views.manageBooks, name="manage-books"),
     path('add/', views.addBook, name="add-book"),
+    path('edit/<str:pk>/', views.editBookDetail, name="edit-book-detail"),
+    path('delete/<str:pk>/', views.deleteBook, name="delete-book"),
 
 
 

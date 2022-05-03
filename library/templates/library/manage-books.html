@@ -13,7 +13,10 @@
         <tr>
             <td><a href="{% url 'library:book-detail' book.id %}">{{book.title}}</a></td>
             <td>{{book.author}}</td>
-            <td><a href="">Edit</a> <a href="">Delete</a></td>
+            <td>
+                <a href="{% url 'library:edit-book-detail' book.id%}">Edit</a> 
+                <a href="{% url 'library:delete-book' book.id%}">Delete</a>
+            </td>
         </tr>
     {% endfor %}
 <table>
