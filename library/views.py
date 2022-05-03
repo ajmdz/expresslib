@@ -80,3 +80,16 @@ def manageBooks(request):
     books = Book.objects.all()
     context = {'books':books}
     return render(request, 'library/manage-books.html', context)
+
+# book CRUD
+def addBook(request):
+    form = BookForm()
+
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('library:manage-books')
+
+    context = {'form':form}
+    return render(request, 'library/add-book.html', context)
