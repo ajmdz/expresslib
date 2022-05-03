@@ -10,6 +10,7 @@ urlpatterns = [
     path('book/<str:pk>/', views.bookDetail, name="book-detail"),
 
     path('manage/', views.manageBooks, name="manage-books"),
+    path('add/', views.addBook, name="add-book"),
 
 
 
