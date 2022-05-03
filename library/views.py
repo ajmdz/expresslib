@@ -76,3 +76,7 @@ def bookDetail(request, pk):
     context = {'book':bookObj, 'inRequestTable': inRequestTable}
     return render(request, 'library/book-detail.html', context)
 
+def manageBooks(request):
+    books = Book.objects.all()
+    context = {'books':books}
+    return render(request, 'library/manage-books.html', context)
