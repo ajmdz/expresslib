@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Book, Profile
-from .forms import BookForm, CreateUserForm
+from .forms import BookForm, AuthorForm, PublisherForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -83,7 +83,10 @@ def manageBooks(request):
 
 # book CRUD
 def addBook(request):
-    form = BookForm()
+    book_form = BookForm()
+    author_form = AuthorForm()
+    publisher_form = PublisherForm()
+    
 
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
@@ -91,8 +94,34 @@ def addBook(request):
             form.save()
         return redirect('library:manage-books')
 
-    context = {'form':form}
+    context = {'book_form':book_form, 
+                'author_form':author_form, 
+                'publisher_form':publisher_form
+                }
     return render(request, 'library/add-book.html', context)
+
+def addAuthor(request):
+    author_form = AuthorForm()
+
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('library:add-book')
+
+    return render(request, 'library/add-author.html', {'author_form':author_form})
+
+def addPublisher(request):
+    publisher_form = PublisherForm()
+
+    if request.method == 'POST':
+        form = PublisherForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('library:add-book')
+
+    return render(request, 'library/add-publisher.html', {'publisher_form':publisher_form})
+
 
 def editBookDetail(request,pk):
     book = Book.objects.get(id=pk)
