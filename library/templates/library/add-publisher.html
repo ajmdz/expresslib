@@ -1,0 +1,7 @@
+<h3>Add new publisher</h3>
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {{publisher_form.as_p}}
+    <input type="submit" name="Add Publisher">
+</form>
