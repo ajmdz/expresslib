@@ -1,8 +1,12 @@
 <h3> Add Book </h3>
 
+<a href="{% url 'library:add-author' %}">Add Author</a>
+<br>
+<a href="{% url 'library:add-publisher' %}">Add Publisher</a>
+
 <form method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
 
-    {{form.as_p}}
+    {{book_form.as_p}}
     <input type="submit" name="Add Book">
 </form>
