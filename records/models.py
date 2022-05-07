@@ -22,14 +22,14 @@ class Record(models.Model):
     def get_returnDate():
         return datetime.today() + timedelta(days=7)
 
-    request = models.ForeignKey(Request, null=True, blank=True, on_delete=models.CASCADE)
+    request_fk = models.ForeignKey(Request, null=True, blank=True, on_delete=models.CASCADE)
     issue_date = models.DateTimeField(auto_now_add=True)
     return_date = models.DateTimeField(default=get_returnDate)
     returned = models.BooleanField(default=False)
     # fine = models.DecimalField(default=0, decimal_places=2, max_digits=7)
     
     def __str__(self):
-        return self.request.user.username + \
-            " - " + self.request.book.title + \
+        return self.request_fk.user.username + \
+            " - " + self.request_fk.book.title + \
             " | Return by " + str(self.return_date)
 
