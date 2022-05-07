@@ -51,7 +51,7 @@ def approveRequest(request, pk):
     
     if request.method == 'POST':
         item.save()
-        record = Record(request=item)   
+        record = Record(request_fk=item)   
         record.save()
         book.save()
         return redirect('records:borrow-requests')
