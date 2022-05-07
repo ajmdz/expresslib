@@ -53,10 +53,19 @@ def logoutUser(request):
     return redirect('library:login')
 
 @login_required(login_url='library:login')
-def books(request):
+def userDashboard(request):
     books = Book.objects.all()
-    context = {'books':books}
-    return render(request, 'library/books.html', context)
+    currentUser = User.objects.get(id=request.user.id)
+    my_requests = Request.objects.filter(user=currentUser, 
+                                        status="PENDING").order_by('-date_created')
+    # fix bug: either add a user field in Record model or do complex query
+    my_books = Record.objects.filter(request_fk__user=request.user, returned=False).order_by('issue_date')
+    
+    for book in my_books:
+        print(book)
+    
+    context = {'books':books, 'my_requests':my_requests}
+    return render(request, 'library/user-dashboard.html', context)
 
 @login_required(login_url='library:login')
 def bookDetail(request, pk):
