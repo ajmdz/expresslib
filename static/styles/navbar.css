@@ -1,0 +1,12 @@
+.navbar-nav {
+    margin-left: auto;
+}
+
+.nav-link, .disabled {
+    color: #fff !important;
+}
+
+nav 
+{
+    background-image: linear-gradient(to left,#2CCCC4, #478AC9);
+}

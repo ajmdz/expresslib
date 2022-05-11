@@ -1,0 +1,133 @@
+body
+{
+    background-color: black;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.split
+{
+    height: 100%;
+    width: 68.7%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.left_side
+{
+    left: 0;
+    background-image: linear-gradient(to top,#2CCCC4, #478AC9);
+}
+
+.logo_only
+{
+    position: absolute;
+    left: -7%;
+    top: 36%;
+    width: 68%;
+    opacity: 45%;
+}
+
+.right_side
+{
+    right: 0;
+    background-color: white;
+}
+
+.main_logo
+{
+    position: absolute;
+    left: 11%;
+    top: 10%;
+    width: 37%;
+}
+
+.regtext
+{
+    position: absolute;
+    font-size: 35px;
+    top: 20%;
+    left: 11.5%;  
+}
+
+form
+{
+    border: 3px solid white;   
+}
+
+.container 
+{   
+    width: 53%; 
+    position: absolute;
+    left: 11%;
+    top: 33%;
+} 
+
+input[type=text]
+{   
+    width: 100%;   
+    margin: 8px 0;  
+    padding: 15px 20px;   
+    display: inline-block;   
+    border: 2px solid #E5E5E5;   
+    box-sizing: border-box;   
+    font-size: 15px;
+    background-color: #F2F2F2;
+} 
+
+input[type=email]
+{   
+    width: 100%;   
+    margin: 8px 0;  
+    padding: 15px 20px;   
+    display: inline-block;   
+    border: 2px solid #E5E5E5;   
+    box-sizing: border-box;   
+    font-size: 15px;
+    background-color: #F2F2F2;
+} 
+
+input[type=password]
+{   
+    width: 100%;   
+    margin: 8px 0;  
+    padding: 15px 20px;   
+    display: inline-block;   
+    border: 2px solid #E5E5E5;   
+    box-sizing: border-box;   
+    font-size: 15px;
+    background-color: #F2F2F2;
+} 
+
+.check
+{
+    position: absolute;
+    top: 105%;
+}
+
+.login
+{
+    color: #478AC9;
+    text-decoration:none;
+}
+
+button 
+{   
+    background-color: #2CCCC4;
+    font-size: 15px;
+    width: 25%;  
+    color: white;   
+    padding: 15px;   
+    margin: 10px 0px;   
+    border: none;   
+    cursor: pointer;   
+    border-radius: 5px;
+}
+
+button:hover
+{
+    background-color: #28b8b0;
+}
