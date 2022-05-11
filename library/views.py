@@ -24,7 +24,7 @@ def registerPage(request):
                 Profile.objects.create(user=user)
                 messages.success(request, 'Account was created')
 
-                return redirect('login')
+                return redirect('library:login')
 
         context = {'form':form}
         return render(request, 'library/register.html', context)
@@ -58,13 +58,10 @@ def userDashboard(request):
     currentUser = User.objects.get(id=request.user.id)
     my_requests = Request.objects.filter(user=currentUser, 
                                         status="PENDING").order_by('-date_created')
-    # fix bug: either add a user field in Record model or do complex query
+    
     my_books = Record.objects.filter(request_fk__user=request.user, returned=False).order_by('issue_date')
     
-    for book in my_books:
-        print(book)
-    
-    context = {'books':books, 'my_requests':my_requests}
+    context = {'books':books, 'my_requests':my_requests, 'my_books':my_books}
     return render(request, 'library/user-dashboard.html', context)
 
 @login_required(login_url='library:login')
@@ -137,7 +134,7 @@ def editBookDetail(request,pk):
     form = BookForm(instance=book)
 
     if request.method == 'POST':
-        form = BookForm(request.POST, instance=book)
+        form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             form.save()
             return redirect('library:manage-books')
