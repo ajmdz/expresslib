@@ -19,9 +19,6 @@ def confirmRequest(request, pk):
 # ADMIN-ONLY VIEWS
 def fetchRequests(request):
     requests = Request.objects.filter(status='PENDING').order_by('date_created')
-    # for item in requests:
-    #     foo = item.user.username +" "+ item.book.title
-    #     print(foo)
     context = {'requests':requests}
     return render(request, 'records/admin-requests.html', context)
 
@@ -33,7 +30,7 @@ def fetchRecords(request):
 def returnBook(request, pk):
     item = Record.objects.get(id=pk)
     item.returned = True
-    book = Book.objects.get(id=item.request.book.id)
+    book = Book.objects.get(id=item.request_fk.book.id)
     book.available = True
 
     if request.method == 'POST':
