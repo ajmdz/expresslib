@@ -1,0 +1,165 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid" style=""> 
+    <div class="row dashboard">
+        <div class="col-lg-3" style="padding: 0; background-color:#F2F2F2;">
+
+        <!-- My Requests Table -->
+            <table class="table" style="">
+                <tr style="background-color:#478AC9; color: #fff;">
+                    <th scope="col" colspan="2">My Requests</th>
+                </tr>
+
+                <tr style="background-color:#F2F2F2;">
+                    {% if my_requests %}
+
+                        {% for request in my_requests %}
+                            <td>{{request.book.title}}</td>
+                            <td>{{request.status}}</td>
+                        {% endfor %}
+                    {% else %}
+                        <td>No requests for now</td>
+                    {% endif %}
+                </tr>
+                    
+                
+                
+            </table>
+
+        <!-- My Records Table -->
+            <table class="table">
+                <tr style="background-color:#478AC9; color: #fff;">
+                    <th scope="col" colspan="2">Currently Borrowing</th>
+                </tr>
+  
+                {% if my_books %}
+                    <tr style="background-color:#478AC9; color: #fff;">
+                        <th scope="col">Title</th>
+                        <th scope="col">Return Date</th>
+                    </tr>
+                    {% for book in my_books %}
+                        <td>{{book.request_fk.book.title}}</td>
+                        <td>{{book.return_date}}</td>
+                    {% endfor %}
+                {% else %}
+                    <tr style="background-color:#F2F2F2;">
+                        <td>No records yet</td>
+                    </tr>
+                {% endif %}
+                     
+            </table>
+        </div>
+
+        <div class="col" style="padding: 2em;">
+            <h2>All Books</h2>
+            <!-- Search Bar -->
+            <div class="container mx-auto" style="margin-bottom: 2em;"> 
+                <div class="input-group" style="width:100%;">
+                    <div class="form-outline mx-auto d-flex" style="width: 80%;">
+                        <input type="search" id="form1" class="form-control" placeholder="Enter keywords"/>
+                        <button type="button" class="btn" style="background-color:#2CCCC4; color: white;">
+                            Search
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Available Books Table -->
+            <table class="table table-hover">
+                <thead>
+                    <tr style="background-color: #2CCCC4; color: #fff;">
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Published</th>
+                    </tr>
+                </thead>
+
+
+                {% for book in books %}
+                <tr>
+                    <td><a href="{% url 'library:book-detail' book.id%}" style="text-decoration:none;">
+                        {{book.title}}</a>
+                    </td>
+                    <td>{{book.author}}</td>
+                    <td>{{book.published}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            
+        </div>
+    </div>
+</div>
+    
+        
+    {% comment %}
+    <!-- My Borrowed Books Table -->
+        <table class="sidebar down_table">
+            <!-- Header Row -->
+            <tr class="sidebar header">
+                <th class="sidebar header title">My Borrowed Books</th>
+                <th></th>
+            </tr>
+            <!-- Table Data Row -->
+            <tr class="sidebar data">
+                <td class="sidebar title">Borrowed Book Title Example 1</td>
+                <td class="date">YYYY/MM/DD, 00:00 AM/PM</td>
+            </tr>
+            <tr class="sidebar data">
+                <td class="sidebar title">Borrowed Book Title Example 2</td>
+                <td class="date">YYYY/MM/DD, 00:00 AM/PM</td>
+            </tr>
+            <tr class="sidebar data">
+                <td class="sidebar title">Borrowed Book Title Example 3</td>
+                <td class="date">YYYY/MM/DD, 00:00 AM/PM</td>
+            </tr>
+            <tr class="sidebar data">
+                <td class="sidebar title">Borrowed Book Title Example 4</td>
+                <td class="date">YYYY/MM/DD, 00:00 AM/PM</td>
+            </tr>
+        </table>
+        
+    <!-- Available Books Table -->   
+        <p class="avail">Available Books</p>
+        
+            <!-- Search Button -->
+            <form class="searchbutton" action="action_page.php">
+                <i class="material-icons">search</i>
+                <input type="text" placeholder="Search" name="search">
+                <button type="submit">SEARCH</button>
+            </form>
+        
+            <table class="middle">    
+            <!---Header Row-->
+            <tr class="middle header">
+                <th class="middle header title">Book Title</th>
+                <th class="middle header title">Author</th>
+                <th class="middle header title">Published</th>
+            </tr>
+            <!-- Table Data Row -->
+            <tr class="middle data">
+                <td class="available_book"><a href="user-bookdetails.html">Available Book Title Example 1</a></td>
+                <td class="author">Juan Dela Cruz</td>
+                <td class="year">2000</td>
+            </tr>
+            <tr class="middle data">
+                <td class="available_book"><a href="user-bookdetails.html">Available Book Title Example 2</a></td>
+                <td class="author">Juan Dela Cruz</td>
+                <td class="year">2000</td>
+            </tr>
+            <tr class="middle data">
+                <td class="available_book"><a href="user-bookdetails.html">Available Book Title Example 3</a></td>
+                <td class="author">Juan Dela Cruz</td>
+                <td class="year">2000</td>
+            </tr>
+            <tr class="middle data">
+                <td class="available_book"><a href="user-bookdetails.html">Available Book Title Example 4</a></td>
+                <td class="author">Juan Dela Cruz</td>
+                <td class="year">2000</td>
+            </tr>
+        </table>  {% endcomment %}
+        
+{% endblock content %}

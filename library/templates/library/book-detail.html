@@ -1,32 +1,60 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-<h1>{{book.title}}</h1>
-<p> {{book.author.fname}} {{book.author.lname}} </p>
-<img style="max-width: 500px" src="{{ book.cover.url }}">
-<p><b>Status:</b> 
-    {% comment %} 
-        If possible, handle situations where the book is currently granted to user 
-    {% endcomment %}
-    {% if inRequestTable %} 
-        Request pending
-    {% elif book.available %}Available <br>
-        <a href="{% url 'records:confirm' book.id %}">Borrow this book</a>
-    {% else %} 
-        Not Available
-    {% endif %}</p>
-<hr>
-<h3>Description</h3>
-<p>
-    {{book.description}}
-</p>
-<hr>
-<h3>More information</h3>
-<b>ISBN-13:</b> {{book.isbn13}}
-<br><b>Published:</b> {{book.published}}, {{book.publisher}}
-<br><b>Date added:</b> {{book.date_added}}
-<hr>
+<div class="container-fluid" style=""> 
+    <div class="row">
+        <div class="col-lg-4" style="padding: 2em 1em;">
+        
+            <div class="container">
+                <img class="mx-auto d-block" style="width: 250px; padding-bottom:1em;" src="{{ book.cover.url }}">
+                <h4 class="text-center">{{book.title}}</h4>
+                <p class="text-center"> 
+                    {{book.author.fname}} {{book.author.lname}} 
+                </p>
 
+                <p><b>Status:</b> 
+                    {% comment %} 
+                        If possible, handle situations where the book is currently granted to user 
+                    {% endcomment %}
+                    {% if inRequestTable %} 
+                        Request pending
+                    {% elif book.available %}Available <br>
+                        <a class ="btn" style="background-color:#2CCCC4; color: white;" href="{% url 'records:confirm' book.id %}">Borrow this book</a>
+                    {% else %} 
+                        Not Available
+                    {% endif %}
+                </p>
+            </div>
+            
+        </div>
 
+        <!-- Right Panel -->
+        <div class="col-lg-7" style="padding: 2em 1em;"> 
+            <table class="table table-bordered" style="margin-bottom: 3em; background-color: #F2F2F2;">
+                <tr>
+                    <th style="background-color: #2CCCC4; color: white;" scope="col">DESCRIPTION</th>
+                </tr>
+                <tr>
+                    <td style="text-align: justify;">{{book.description}}</td>
+                </tr>
+            </table>
 
+            <table class="table table-bordered" style="background-color: #F2F2F2">
+                <tr>
+                    <th style="background-color: #2CCCC4; color: white;" scope="col">MORE INFORMATION</th>
+                </tr>
+                <tr> <td>ISBN: {{book.isbn13}}</td></tr>
+                <tr> <td>Published: {{book.published}}</td></tr>
+                <tr> <td>Date Added: {{book.date_added}}</td></tr>
+                
+            </table>
+
+        </div>
+            
+        <div class="col" style="padding: 2em;">
+            
+        </div>
+    </div>
+</div>
 {% endblock content %}
