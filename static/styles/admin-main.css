@@ -1,0 +1,21 @@
+.table > :not(:first-child) {
+    border-top: 0;
+}
+
+.fullview {
+    height: 100vh;
+}
+
+td {
+    vertical-align: middle;
+}
+
+th {
+    text-align: center;
+}
+
+
+/* FORM */
+.form-group {
+    background-color: #f2f2f2;
+}
