@@ -1,31 +1,50 @@
 {% extends 'admin-main.html' %}
+{% load static %}
 
 {% block content %}
-<h1>All Requests</h1>
+<div class="container-fluid" style=""> 
+    <div class="row fullview">
 
-{% if requests %}
-    <table>
-        <tr>
-            <th>Book</th>
-            <th>User</th>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-        {% for item in requests %}
-            <tr>
-                <td>{{item.book.title}}</td>
-                <td>{{item.user.username}}</td>
-                <td>{{item.date_created}}</td>
-                <td>{{item.status}}</td>
-                <td>
-                    <a href="{% url 'records:approve-request' item.id %}">Approve</a> 
-                    <a href="{% url 'records:decline-request' item.id %}">Decline</a>
-                </td>
-            </tr>
-        {% endfor %}
-    <table>
-{% else %}
-<h3> No requests for now.</h3>
-{% endif %}
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+
+        
+        <div class="col-lg-10" style="">
+            <h2 style="padding: 1em 0">All Borrow Requests</h2>
+
+            {% if requests %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr style="background-color: #2CCCC4; color: #fff;">
+                            <th style="width:50%" scope="col">Book</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+
+                    {% for item in requests %}
+                    <tr>
+                        <td>{{item.book.title}}</td>
+                        <td>{{item.user.username}}</td>
+                        <td>{{item.date_created}}</td>
+                        <td class="">
+                            <a class ="btn m-2" style="background-color:#2CCCC4; color: white;" 
+                                href="{% url 'records:approve-request' item.id %}">APPROVE</a> 
+                            <a class ="btn m-2" style="background-color:#F71C22; color: white;" 
+                                href="{% url 'records:decline-request' item.id %}">DECLINE</a> 
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h3 class="text-center"> No requests for now.</h3>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+
+    </div>
+</div>
 
 {% endblock content %}
