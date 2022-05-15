@@ -13,6 +13,18 @@ class BookForm(ModelForm):
                     'description', 'cover', 
                     'published', 'publisher',
                     'available', ]
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'author': forms.Select(attrs={'class': 'form-control'}),
+            'isbn13': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'cover': forms.FileInput(attrs={'class': 'form-control'}),
+            'published': forms.TextInput(attrs={'class': 'form-control', 'id':'datepicker', 'name':'datepicker'}),
+            'publisher': forms.Select(attrs={'class': 'form-control'}),
+            'available': forms.CheckboxInput(),
+        }
+
+
 
 class AuthorForm(ModelForm):
     class Meta:
