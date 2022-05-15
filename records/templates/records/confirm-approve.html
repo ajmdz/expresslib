@@ -1,5 +1,13 @@
-<h3>Confirm request approval</h3>
-<form method="POST" action="">
-    {% csrf_token %}
-    <input class="" type="submit" value="confirm">
-</form>
+{% extends 'admin-main.html' %}
+
+{% block content %}
+<div class="form-group form-control text-center">
+
+    <h3>Confirm request approval</h3>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input class="" type="submit" value="confirm">
+    </form>
+
+</div>
+{% endblock content %}

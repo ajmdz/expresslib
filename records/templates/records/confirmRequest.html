@@ -1,7 +1,12 @@
-{% comment %} SHOW THIS FORM ONLY IF NO PRIOR REQUEST HAS BEEN MADE {% endcomment %}
-<p> Confirm your request:</p>
-<p> {{book.title}}</p>
-<form method="POST" action="">
-    {% csrf_token %}
-    <input class="" type="submit" value="confirm">
-</form>
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="form-group form-control">
+    <p> Confirm your request:</p>
+    <p> {{book.title}}</p>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input class="" type="submit" value="confirm">
+    </form>
+</div>
+{% endblock content %}
