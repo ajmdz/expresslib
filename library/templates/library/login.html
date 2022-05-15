@@ -27,6 +27,11 @@
                     <div class="container">
                         <input type="text" placeholder="Enter your Username" name="username" required>
                         <input type="password" placeholder="Enter your Password" name="password" required>
+                        
+                        {% for message in messages %}
+                            <p style="color:red"> {{message}} </p>
+                        {% endfor %} 
+                        
                         <input type="checkbox"> Remember me
                         <button type="submit" value="Login"><b>LOGIN</b></button>
                         <br>
@@ -35,11 +40,9 @@
                         </div>
                     </div>
                 </form>
-                
-                {% for message in messages %}
-                <p> {{message}} </p>
-                {% endfor %}
+
             </div>
+            
     </body>
     
 </html>

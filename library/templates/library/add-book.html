@@ -9,11 +9,15 @@
         <div class="col-lg-10" style="">
 
             <h2 style="padding: 1em 0">Add new book</h2>
-
-            <div class="container-fluid form-group">
+            <p>Author or publisher not found?</p>
+            <ul> 
+                <li> <a style="text-decoration: none;" href="{% url 'library:add-author' %}">Add new author</a></li>
+                <li> <a style="text-decoration: none;" href="{% url 'library:add-publisher' %}">Add new publisher</a></li>
+            </ul>
+            <div class="container-fluid form-group py-4">
                 <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
-    
+                        
                     {{book_form.as_p}}
                     <input type="submit" name="Add Book">
                 </form>
@@ -27,18 +31,3 @@
 
 
 {% endblock content %}
-
-{% comment %} 
-<h3> Add Book </h3>
-
-<a href="{% url 'library:add-author' %}">Add Author</a>
-<br>
-<a href="{% url 'library:add-publisher' %}">Add Publisher</a>
-
-<form method="POST" action="" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    {{book_form.as_p}}
-    <input type="submit" name="Add Book">
-</form>
-{% endcomment %}

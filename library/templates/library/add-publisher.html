@@ -1,7 +1,39 @@
-<h3>Add new publisher</h3>
+{% extends 'admin-main.html' %}
+
+{% block content %}
+<div class="container-fluid" style=""> 
+    <div class="row fullview">
+
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+
+        <div class="col-lg-10" style="">
+
+            <h2 style="padding: 1em 0">Add new publisher</h2>
+
+            <div class="container-fluid form-group py-4">
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+                        
+                    <p>Publisher Name: {{publisher_form.name}}</p>
+                    <input type="submit" name="Add Book">
+                </form>
+            </div>
+
+        </div>
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+{
+{% comment %} <h3>Add new publisher</h3>
 <form method="POST" action="">
     {% csrf_token %}
 
     {{publisher_form.as_p}}
     <input type="submit" name="Add Publisher">
-</form>
+</form> {% endcomment %}

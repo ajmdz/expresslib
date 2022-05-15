@@ -37,8 +37,8 @@
                             <label>Confirm Password</label><br>
                             {{form.password2}}
                             {% comment %} <input type="password" placeholder="Re-enter Password" name="password2" required><br> {% endcomment %}
+                            <span style="color:red">{{form.errors}}</span>
                             <button type="submit"><b>REGISTER</b></button>
-                            {{form.errors}}
                             <div class="check">
                                 Already have an account? <a class="login" href="{% url 'library:login' %}">Login</a>
                             </div>

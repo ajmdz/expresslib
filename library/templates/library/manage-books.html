@@ -9,24 +9,8 @@
 
         
         <div class="col-lg-10" style="">
-        
-            <h2 style="padding: 1em 0">Manage Books</h2>
-
-            <!-- Search Bar -->
-            <div class="container mx-auto mb-5"> 
-                <div class="input-group" style="width:100%;">
-                    <div class="form-outline mx-auto d-flex" style="width: 80%;">
-                        <input type="search" id="form1" class="form-control" placeholder="Enter keywords"/>
-                        <button type="button" class="btn" style="background-color:#2CCCC4; color: white;">
-                            Search
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
-
             <!-- Add books button -->
-            <div class="container-fluid m-0 px-0 me-0 mb-2"> 
+            <div class="container-fluid m-0 px-0 me-0 mt-3"> 
                 <div class="row justify-content-end w-auto px-0">
                     <div class="col-lg-2">
                         <a class ="btn m-1 float-end  " style="background-color:#2CCCC4; color: white;
@@ -35,34 +19,53 @@
                     </div>
                 </div>
             </div>
-            
+
+            <h2 class="pb-1">Manage Books</h2>
+         
+            <!-- Search Bar -->
+            <div class="container mx-auto" style="margin-bottom: 2em;"> 
+                <div class="input-group" style="width:100%;">
+                    <form class="form-outline mx-auto d-flex" action="{% url 'library:manage-books' %}" style="width: 80%;">
+                        <input type="search" id="form1" class="form-control" placeholder="Enter keywords" name="search"/>
+                        <button type="submit" class="btn" style="background-color:#2CCCC4; color: white;">
+                            Search
+                        </button>
+                    </form>
+                    
+                </div>
+            </div>
+
 
             <!-- Available Books Table -->
-            <table class="table table-hover">
-                <thead>
-                    <tr style="background-color: #2CCCC4; color: #fff;">
-                        <th scope="col" style="width:60%">Book Title</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Action</th>
+            {% if books %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr style="background-color: #2CCCC4; color: #fff;">
+                            <th scope="col" style="width:60%">Book Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+
+
+                    {% for book in books %}
+                    <tr>
+                        <td><a href="{% url 'library:admin-book-detail' book.id%}" style="text-decoration:none;">
+                            {{book.title}}</a>
+                        </td>
+                        <td>{{book.author}}</td>
+                        <td class="text-center">
+                            <a class ="btn m-1" style="background-color:#2CCCC4; color: white;" 
+                            href="{% url 'library:edit-book-detail' book.id %}">EDIT</a> 
+                            <a class ="btn m-1" style="background-color:#F71C22; color: white;" 
+                            href="{% url 'library:delete-book' book.id %}">DELETE</a> 
+                        </td>
                     </tr>
-                </thead>
-
-
-                {% for book in books %}
-                <tr>
-                    <td><a href="{% url 'library:book-detail' book.id%}" style="text-decoration:none;">
-                        {{book.title}}</a>
-                    </td>
-                    <td>{{book.author}}</td>
-                    <td class="text-center">
-                        <a class ="btn m-1" style="background-color:#2CCCC4; color: white;" 
-                        href="{% url 'library:edit-book-detail' book.id %}">EDIT</a> 
-                        <a class ="btn m-1" style="background-color:#F71C22; color: white;" 
-                        href="{% url 'library:delete-book' book.id %}">DELETE</a> 
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="text-center"> No books found </p>
+            {% endif %}
         </div>
 
         <div class="col-lg-1 d-none d-lg-block" style=""></div>

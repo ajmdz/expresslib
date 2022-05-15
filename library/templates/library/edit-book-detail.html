@@ -1,16 +1,33 @@
 {% extends 'admin-main.html' %}
 
 {% block content %}
+<div class="container-fluid" style=""> 
+    <div class="row fullview">
+
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+
+        <div class="col-lg-10" style="">
+
+            <h2 style="padding: 1em 0">Edit book details</h2>
+            <p>Author or publisher not found?</p>
+            <ul> 
+                <li> <a style="text-decoration: none;" href="{% url 'library:add-author' %}">Add new author</a></li>
+                <li> <a style="text-decoration: none;" href="{% url 'library:add-publisher' %}">Add new publisher</a></li>
+            </ul>
+            <div class="container-fluid form-group py-4">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        
+                    {{form.as_p}}
+                    <input type="submit" name="Update book">
+                </form>
+            </div>
+
+        </div>
+        <div class="col-lg-1 d-none d-lg-block" style=""></div>
+    </div>
+</div>
+
+
 
 {% endblock content %}
-
-{% comment %} 
-<h3> Edit Book Detail </h3>
-
-<form method="POST" action="">
-    {% csrf_token %}
-
-    {{form.as_p}}
-    <input type="submit" name="Update Book Info">
-</form>
-{% endcomment %}
