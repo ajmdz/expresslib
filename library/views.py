@@ -9,44 +9,44 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from records.models import Request, Record
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from .decorators import unauthenticated_user, allowed_users
 
-# Create your views here.
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('library:books')
-    else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                user = form.save()
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
 
-                Profile.objects.create(user=user)
-                messages.success(request, 'Account was created')
+            Profile.objects.create(user=user)
+            messages.success(request, 'Account was created')
 
-                return redirect('library:login')
+            return redirect('library:login')
 
-        context = {'form':form}
-        return render(request, 'library/register.html', context)
+    context = {'form':form}
+    return render(request, 'library/register.html', context)
 
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('library:books')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('library:books')
+        if user is not None:
+            login(request, user)
+            if request.user.is_staff:
+                return redirect('records:borrow-requests')
             else:
-                messages.info(request, 'Username OR password is incorrect')
+                return redirect('library:books')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
 
-        context = {}
-        return render(request, 'library/login.html', context)
+    context = {}
+    return render(request, 'library/login.html', context)
 
 def logoutUser(request):
     logout(request)
@@ -54,13 +54,29 @@ def logoutUser(request):
 
 @login_required(login_url='library:login')
 def userDashboard(request):
-    books = Book.objects.all()
+    
     currentUser = User.objects.get(id=request.user.id)
     my_requests = Request.objects.filter(user=currentUser, 
                                         status="PENDING").order_by('-date_created')
-    
     my_books = Record.objects.filter(request_fk__user=request.user, returned=False).order_by('issue_date')
-    
+
+
+    search_keyword = request.GET.get('search')
+
+    if search_keyword:
+        # try:
+        multiple_q = Q(
+            Q(title__icontains=search_keyword) |
+            Q(author__fname__icontains=search_keyword) |
+            Q(author__lname__icontains=search_keyword)
+        )
+        books = Book.objects.filter(multiple_q)
+        # except:
+        #     print(search_keyword)
+        #     books = None
+    else:
+        books = Book.objects.all().order_by('-date_added')
+
     context = {'books':books, 'my_requests':my_requests, 'my_books':my_books}
     return render(request, 'library/user-dashboard.html', context)
 
@@ -68,11 +84,6 @@ def userDashboard(request):
 def bookDetail(request, pk):
     bookObj = Book.objects.get(id=pk)
     # check status: don't allow user to send duplicate requests
-    """
-        Possible bug: if book status is not reset to available
-            after approval and return.
-        So, set the status back to available after the book is returned 
-    """
     try:
         inRequestTable = Request.objects.get(user=request.user, book=bookObj, status="PENDING")
     except ObjectDoesNotExist:
@@ -82,12 +93,37 @@ def bookDetail(request, pk):
     context = {'book':bookObj, 'inRequestTable': inRequestTable}
     return render(request, 'library/book-detail.html', context)
 
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
+def adminBookDetail(request, pk):
+    bookObj = Book.objects.get(id=pk)
+    context = {'book':bookObj}
+    return render(request, 'library/admin-book-detail.html', context)
+
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def manageBooks(request):
     books = Book.objects.all()
+
+    search_keyword = request.GET.get('search')
+
+    if search_keyword:
+        multiple_q = Q(
+            Q(title__icontains=search_keyword) |
+            Q(author__fname__icontains=search_keyword) |
+            Q(author__lname__icontains=search_keyword)
+        )
+        books = Book.objects.filter(multiple_q)
+
+    else:
+        books = Book.objects.all().order_by('-date_added')
+
     context = {'books':books}
     return render(request, 'library/manage-books.html', context)
 
 # book CRUD
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def addBook(request):
     book_form = BookForm()
     author_form = AuthorForm()
@@ -106,6 +142,8 @@ def addBook(request):
                 }
     return render(request, 'library/add-book.html', context)
 
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def addAuthor(request):
     author_form = AuthorForm()
 
@@ -117,6 +155,8 @@ def addAuthor(request):
 
     return render(request, 'library/add-author.html', {'author_form':author_form})
 
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def addPublisher(request):
     publisher_form = PublisherForm()
 
@@ -128,7 +168,8 @@ def addPublisher(request):
 
     return render(request, 'library/add-publisher.html', {'publisher_form':publisher_form})
 
-
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def editBookDetail(request,pk):
     book = Book.objects.get(id=pk)
     form = BookForm(instance=book)
@@ -142,6 +183,8 @@ def editBookDetail(request,pk):
     context = {'form':form}
     return render(request, 'library/edit-book-detail.html', context)
 
+@login_required(login_url='library:login')
+@allowed_users(allowed_roles=['admin'])
 def deleteBook(request,pk):
     book = Book.objects.get(id=pk)
 
