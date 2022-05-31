@@ -12,17 +12,18 @@
                     <th scope="col" colspan="2">My Requests</th>
                 </tr>
 
-                <tr style="background-color:#F2F2F2;">
+                
                     {% if my_requests %}
-
                         {% for request in my_requests %}
+                        <tr style="background-color:#F2F2F2;">
                             <td>{{request.book.title}}</td>
                             <td>{{request.status}}</td>
+                        </tr>
                         {% endfor %}
                     {% else %}
                         <td>No requests for now</td>
                     {% endif %}
-                </tr>
+                
                     
                 
                 
@@ -35,13 +36,15 @@
                 </tr>
   
                 {% if my_books %}
-                    <tr style="background-color:#478AC9; color: #fff;">
+                    <tr style="background-color:#F2F2F2; color: #478AC9;">
                         <th scope="col">Title</th>
                         <th scope="col">Return Date</th>
                     </tr>
                     {% for book in my_books %}
+                    <tr style="background-color:#F2F2F2">
                         <td>{{book.request_fk.book.title}}</td>
                         <td>{{book.return_date}}</td>
+                    </tr>
                     {% endfor %}
                 {% else %}
                     <tr style="background-color:#F2F2F2;">
