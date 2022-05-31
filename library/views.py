@@ -39,7 +39,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             if request.user.is_staff:
-                return redirect('records:borrow-requests')
+                return redirect('library:manage-books')
             else:
                 return redirect('library:books')
         else:
